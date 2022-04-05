@@ -1,3 +1,4 @@
+from ipaddress import collapse_addresses
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,11 +7,15 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from mpl_toolkits.mplot3d import Axes3D
 
-df = pd.read_csv('./data/communities_processed.csv')
+# Do PCA over features: householdsize, Pct65up,
+#                       medFamInc, PctPopUnderPov, pctUrban, ViolentCrimesperPop
 
-print(df.head())
-df_violent_crimes = df['ViolentCrimesPerPop']
-df = df.drop(columns=['ViolentCrimesPerPop'])
+df = pd.read_csv('./data/communities_processed.csv')
+df.drop(df.columns[[2,6,7,8,10]], axis=1, inplace=True)
+# Colorisation according to Population
+df_violent_crimes = df['population']
+df = df.drop(columns=['population'])
+
 # Scale data before applying PCA
 scaling=StandardScaler()
 
@@ -23,7 +28,6 @@ principal=PCA(n_components=3)
 principal.fit(Scaled_data)
 x=principal.transform(Scaled_data)
 principalDf = pd.DataFrame(data = x, columns = ['pc1', 'pc2', "pc3"])
-print(principalDf)
 
 # import relevant libraries for 3d graph
 from mpl_toolkits.mplot3d import Axes3D
