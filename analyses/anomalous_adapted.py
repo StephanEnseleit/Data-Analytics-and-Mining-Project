@@ -195,18 +195,26 @@ def anomPattern(normalization, threshold, dataframe):
         for ik in range(numberC):
             cluster = ancl[ik,0]
             if(len(cluster) >= threshold):
-                cent.append(ancl[ik, 1])
-                num_cents += 1            
+                cent.append(ancl[ik, 1].transpose())
+                num_cents += 1     
 
-    ## Should be adapted
-    #init_partition = np.zeros((town_dataframe.shape[0], len(cent)))
-    #print(init_partition)
-    # for index, d in enumerate(zscor_data):
-    #    dists = [np.linalg.norm(d - c) for c in cent]
-    #    assign = dists.index(np.min(dists))
-    #    init_partition[index, assign] = 1
+    cent = np.asarray(cent)
 
-    return [num_cents, np.round(cent, 2)]
+    ### Should be adapted
+    cent = cent.reshape(num_cents, len(dataframe.columns))
+    #print("Initial prototypes: \n", np.round(cent, DECIMAL_PLACES))
+    init_partition = np.zeros((dataframe.shape[0], len(cent)))  
+
+    index = 0
+    for row in dataframe.values:
+        d = list(row)
+        dists = [np.linalg.norm(d - c) for c in cent]
+        print(dists)
+        assign = dists.index(np.min(dists))
+        init_partition[index, assign] = 1
+        index = index + 1
+
+    return [num_cents, np.round(cent, 2), init_partition]
 
 anomPattern(0,2,town_dataframe)
     
