@@ -23,7 +23,7 @@ def ss_reg(pred, y):
 def ss_res(pred, y):
     return np.sum((y - pred)**2) 
 
-df = pd.read_csv('communities_processed.csv')
+df = pd.read_csv('../../communities_processed.csv')
 corr_matrix = df.corr()
 corr_matrix.to_csv('correlation_matrix_crimes.csv')
 
@@ -137,21 +137,23 @@ leverage = ( (1/len(independent_X_masked))
 standardized_rediduals = residuals / (residuals_standard_error * np.sqrt( 1 - leverage))
 print("Skewness after log tranformation: " , skew(standardized_rediduals))
 
-plt.clf()
 sm.qqplot(standardized_rediduals, 
           stats.t,
           distargs=(degrees_of_freedom,), 
           line='q')
-#plt.show()
-
-# Hypothesis testing
-n = len(dependent_Y)
-r_p = pearsonr(dependent_Y_masked, independent_X_masked[:,1])
-print("n: ", n)
-print("r: ", r_p[0])
-t = (r_p[0] * np.sqrt(n - 2)) / np.sqrt(1 - r_p[0]**2)
-print("t: ", t)
-print("p: ", r_p[1])
+plt.clf()
+print('mean stan: ', np.mean(standardized_rediduals))
+sns.regplot(x=predictions_with_intercept,
+            y=standardized_rediduals, 
+            lowess=True, 
+            scatter_kws={'alpha':0.3}, 
+            line_kws={"color":"r","alpha":0.4,"lw":2})
+plt.plot(np.arange(len(standardized_rediduals)), [0]*len(standardized_rediduals), 'r-')
+plt.xlim(0,predictions_with_intercept.max() + 0.1)
+plt.xlabel('Fitted values')
+plt.ylabel('Standardized Residuals')
+plt.title('Standardized Residuals vs Fitted values')
+plt.show()
 
 # Calculate Coefficient standard errors
 sigma_degrees_of_freedom = (independent_X.shape[0]-independent_X.shape[1])
@@ -159,6 +161,16 @@ sigma_sqr = np.sum(residuals**2)/sigma_degrees_of_freedom
 variance_covmatrix = inv(dot(independent_X.T,independent_X)) * sigma_sqr
 coeff_stde = np.diag(np.sqrt(variance_covmatrix))
 print('Coefficients\' Standard Errors:',coeff_stde)
+
+# Hypothesis testing
+n = len(dependent_Y)
+r_p = pearsonr(dependent_Y_masked, independent_X_masked[:,1])
+print("n: ", n)
+print("r: ", r_p[0])
+#t = (r_p[0] * np.sqrt(n - 2)) / np.sqrt(1 - r_p[0]**2)
+t = beta[1] / coeff_stde[1]
+print("t: ", t)
+print("p: ", r_p[1])
 
 # confidence interval for slope
 upper_bound = beta[1] + t * coeff_stde[1]
