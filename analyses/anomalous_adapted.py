@@ -199,14 +199,14 @@ def anomPattern(normalization, threshold, dataframe):
                 num_cents += 1            
 
     ## Should be adapted
-    print('amount of clusters: ', num_cents)
-    print("Initial prototypes: \n", np.round(cent, 2))
     #init_partition = np.zeros((town_dataframe.shape[0], len(cent)))
     #print(init_partition)
     # for index, d in enumerate(zscor_data):
     #    dists = [np.linalg.norm(d - c) for c in cent]
     #    assign = dists.index(np.min(dists))
     #    init_partition[index, assign] = 1
+
+    return [num_cents, np.round(cent, 2)]
 
 anomPattern(0,2,town_dataframe)
     
