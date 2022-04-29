@@ -209,12 +209,11 @@ def anomPattern(normalization, threshold, dataframe):
     for row in dataframe.values:
         d = list(row)
         dists = [np.linalg.norm(d - c) for c in cent]
-        print(dists)
         assign = dists.index(np.min(dists))
         init_partition[index, assign] = 1
         index = index + 1
 
     return [num_cents, np.round(cent, 2), init_partition]
 
-anomPattern(0,2,town_dataframe)
+anomPattern(0,5,town_dataframe)
     
