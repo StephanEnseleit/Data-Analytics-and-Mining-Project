@@ -23,9 +23,9 @@ def ss_reg(pred, y):
 def ss_res(pred, y):
     return np.sum((y - pred)**2) 
 
-df = pd.read_csv('../../communities_processed.csv')
+df = pd.read_csv('../data/communities_processed.csv')
 corr_matrix = df.corr()
-corr_matrix.to_csv('correlation_matrix_crimes.csv')
+#corr_matrix.to_csv('correlation_matrix_crimes.csv')
 
 independent_X = df['TotalPctDiv'].to_numpy().reshape(-1,1) 
 dependent_Y = df['PctPopUnderPov'].to_numpy()

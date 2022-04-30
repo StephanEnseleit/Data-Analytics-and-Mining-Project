@@ -116,7 +116,7 @@ def dist(x, remains, ranges, p):
         distan = distan + yy
     return distan
 
-town_dataframe = pd.read_fwf('./tons.dat', names = ['POP_RES', 'PSchools', 'Doctors', 'Hospitals', 'Banks', 'Superstores', 'Petrol', 'DIY', 'Swimming', 'PostOffice', 'CABs', 'FarmMarket']) 
+#town_dataframe = pd.read_fwf('../resources/iap/tons.dat', names = ['POP_RES', 'PSchools', 'Doctors', 'Hospitals', 'Banks', 'Superstores', 'Petrol', 'DIY', 'Swimming', 'PostOffice', 'CABs', 'FarmMarket']) 
 def anomPattern(normalization, threshold, dataframe):
     x = dataframe.values.astype(np.float32)
     #y = data.target
@@ -215,5 +215,5 @@ def anomPattern(normalization, threshold, dataframe):
 
     return [num_cents, np.round(cent, 2), init_partition]
 
-anomPattern(0,5,town_dataframe)
+#anomPattern(0,5,town_dataframe)
     
