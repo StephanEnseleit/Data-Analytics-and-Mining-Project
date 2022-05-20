@@ -1,4 +1,8 @@
-# PAD Project Group Communities and Crime
+# Data Analytics and Mining: Project Group Communities and Crime
+
+This project was conducted during the [DataAnalytics and Mining / Prospeção e Análise de Dados](https://guia.unl.pt/en/2019/fct/program/935/course/11563) class in the summer semester of 2022 at the Faculty of Science and Tecnology of the Universidade Nova in Lisbon.
+
+## Setup
 
 To setup this project, including downloading and preprocessing of the data, run the setup script.
 ```bash
